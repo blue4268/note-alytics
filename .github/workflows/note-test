@@ -1,0 +1,14 @@
+name: note週次チェック
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 6'
+
+jobs:
+  check-note:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 動作確認
+        run: echo "GitHub Actionsは正常です"
