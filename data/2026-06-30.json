@@ -1,0 +1,40 @@
+{
+  "date": "2026-06-30",
+  "followers": 0,
+  "following": 1,
+  "article_count": 4,
+  "articles": [
+    {
+      "title": "AIと副業を結びつけるときの考え方",
+      "likes": 2,
+      "comments": 0,
+      "published_at": "2026-06-21",
+      "is_paid": false,
+      "price": 450
+    },
+    {
+      "title": "「AIって結局どこに使えばいいの」と思ったときに",
+      "likes": 5,
+      "comments": 0,
+      "published_at": "2026-06-11",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "「AIを使えば早い」は正しい。でも、それだけでは埋まらないものがある",
+      "likes": 1,
+      "comments": 0,
+      "published_at": "2026-05-26",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "作業を止めない使い分け・実践プロンプト・成果へのつなげ方",
+      "likes": 1,
+      "comments": 0,
+      "published_at": "2026-04-18",
+      "is_paid": false,
+      "price": 2800
+    }
+  ]
+}
