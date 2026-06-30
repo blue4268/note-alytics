@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X投稿一覧｜変化の瞬間シリーズ</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#f2f2f7;color:#1c1c1e;min-height:100vh}
+
+/* Header */
+.top-header{background:#fff;border-bottom:1px solid #e5e5ea;padding:20px 24px 16px}
+.top-header h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.top-header .meta{font-size:12px;color:#8e8e93;margin-top:3px}
+.summary-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.s-chip{border-radius:10px;padding:9px 13px;min-width:82px}
+.s-chip-default{background:#f2f2f7}
+.s-chip-note{background:#fff3cd}
+.s-chip-editor{background:#d1ecf1}
+.s-label{font-size:11px;color:#6c6c70;margin-bottom:3px}
+.s-value{font-size:20px;font-weight:700;line-height:1}
+.s-sub{font-size:11px;color:#6c6c70;margin-top:2px}
+.s-cat-text{font-size:12px;font-weight:600;line-height:1.6;margin-top:2px}
+
+/* Controls */
+.controls{background:#fff;border-bottom:1px solid #e5e5ea;padding:11px 24px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 #e5e5ea}
+.search-wrap{flex:1;min-width:160px}
+.search-wrap input{width:100%;padding:8px 12px;border:1px solid #e5e5ea;border-radius:9px;font-size:14px;outline:none;font-family:inherit;background:#f9f9f9}
+.search-wrap input:focus{border-color:#007aff;background:#fff}
+.filters{display:flex;gap:5px;flex-wrap:wrap}
+.f-btn{padding:6px 13px;border:1px solid #e5e5ea;border-radius:20px;background:#fff;font-size:13px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s;line-height:1.4}
+.f-btn:hover{background:#f2f2f7}
+.f-btn.on{background:#1c1c1e;color:#fff;border-color:#1c1c1e}
+
+/* Cards */
+.cards-wrap{padding:18px 16px;max-width:740px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.07);transition:opacity .15s}
+.card[data-hidden]{display:none}
+
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-num{font-size:12px;color:#8e8e93;padding-top:1px;white-space:nowrap}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:11px;padding:3px 7px;border-radius:5px;font-weight:500;white-space:nowrap}
+.badge-cat{background:#f2f2f7;color:#3a3a3c}
+.badge-note{background:#fff3cd;color:#92670a}
+.badge-editor{background:#cfe2ff;color:#084298}
+
+.card-text{font-size:16px;line-height:1.9;white-space:pre-wrap;margin:12px 0 16px;word-break:break-word;color:#1c1c1e}
+
+.card-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.copy-btn{padding:7px 16px;background:#007aff;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:background .2s;white-space:nowrap;font-weight:500}
+.copy-btn:hover{background:#0071e3}
+.copy-btn.ok{background:#34c759}
+.status-group{display:flex;gap:4px;margin-left:auto}
+.st-btn{padding:5px 11px;border:1px solid #e5e5ea;border-radius:7px;background:#fff;font-size:12px;cursor:pointer;font-family:inherit;transition:all .15s;font-weight:500}
+.st-btn:hover{background:#f2f2f7}
+.st-btn.on-採用{background:#34c759;color:#fff;border-color:#34c759}
+.st-btn.on-修正{background:#ff9500;color:#fff;border-color:#ff9500}
+.st-btn.on-保留{background:#8e8e93;color:#fff;border-color:#8e8e93}
+
+.card-meta{margin-top:12px;border-top:1px solid #f2f2f7;padding-top:10px}
+details summary{font-size:12px;color:#8e8e93;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:5px;padding:2px 0}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▶";font-size:9px;display:inline-block;transition:transform .15s;color:#c7c7cc}
+details[open] summary::before{transform:rotate(90deg)}
+.meta-body{padding-top:10px;font-size:13px;line-height:1.7;color:#3a3a3c}
+.meta-label{font-size:11px;color:#8e8e93;margin-bottom:3px;margin-top:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.meta-label:first-child{margin-top:0}
+
+.empty{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px;display:none}
+
+@media(max-width:600px){
+  .top-header{padding:14px 16px 12px}
+  .controls{padding:9px 14px;gap:8px}
+  .cards-wrap{padding:12px 10px;gap:10px}
+  .card{padding:15px}
+  .card-text{font-size:15px;line-height:1.85}
+  .s-chip{padding:8px 11px;min-width:72px}
+  .s-value{font-size:18px}
+  .copy-btn{padding:7px 13px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-header">
+  <h1 id="batchTitle"></h1>
+  <div class="meta" id="batchMeta"></div>
+  <div class="summary-row" id="summaryRow"></div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="キーワード検索...">
+  </div>
+  <div class="filters" id="filterBtns"></div>
+</div>
+
+<div class="cards-wrap" id="cardsWrap">
+  <div class="empty" id="emptyState">該当する投稿がありません</div>
+</div>
+
+<script>
+// ─── データ ───────────────────────────────────────────────
+const BATCH = {
+  id: '2026-06-30_変化の瞬間シリーズ',
+  title: '変化の瞬間シリーズ',
+  date: '2026-06-30',
+};
+
+const POSTS = [
+  {
+    id: 1,
+    category: '認知投稿',
+    text: '残業を頼まれたとき、以前と少し違う感覚があった。\n\n「断れるかどうか」じゃなく、「どうしようか」と考えていた。\n\n副業で少しだけ収入が動き始めてから、余裕の種類が変わった。\n\n稼いだという実感より、気持ちの方が先に動いていた。そっちが正直なところだと思う。',
+    reader: '今の会社が嫌いなわけではないが、選べない状態への漠然とした不安がある会社員',
+    intent: '日常の一場面から入ることで説教くさくならず、「選択肢が生まれた人の内側」を自然に伝える。稼いだ話ではなく感覚の変化に絞る',
+    noteExpandable: true,
+    editorCheck: false,
+  },
+  {
+    id: 2,
+    category: '視点転換投稿',
+    text: '「会社を辞めたい」という気持ちで動き始めた。\n\nでも気づいたら、目標が変わっていた。\n\n辞めることじゃなく、「辞めても辞めなくても選べる状態」を作ること、に。\n\n目的が変わってから、会社にいるときの緊張感が少し薄れた。',
+    reader: '会社を辞めることを出口として意識しているが、実際には動けていない人',
+    intent: '「会社脱出」系コンテンツとの差別化。ネガティブな動機がそのまま目的になっていると続かない、という気づきを体験ベースで見せる',
+    noteExpandable: true,
+    editorCheck: false,
+  },
+  {
+    id: 3,
+    category: '実験ログ投稿',
+    text: '給料日じゃない日に入金通知が届いた。\n\n金額より、その通知が来た事実の方が不思議だった。\n\nお金って月1回しか入らないものじゃないんだ、という気づき。\n\nこれだけで、副業を続けるエネルギーが変わった気がしている。',
+    reader: '副業を始めたいとは思っているが、最初の一歩が踏み出せていない人',
+    intent: '数字の話にせず「認知が変わった瞬間」として切り取る。成果報告ではなく気づきの記録として見せる',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+];
+
+// ─── ステータス永続化 ──────────────────────────────────────
+const STORAGE_KEY = 'post_status_' + BATCH.id;
+function loadStatuses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveStatuses(obj) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch {}
+}
+let statuses = loadStatuses();
+
+// ─── ヘッダー・サマリー ────────────────────────────────────
+function renderHeader() {
+  document.getElementById('batchTitle').textContent = BATCH.title;
+  document.getElementById('batchMeta').textContent = '作成日：' + BATCH.date;
+
+  const total = POSTS.length;
+  const noteCount = POSTS.filter(p => p.noteExpandable).length;
+  const editorCount = POSTS.filter(p => p.editorCheck).length;
+  const catCounts = {};
+  POSTS.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
+  const catText = Object.entries(catCounts).map(([k, v]) => k + '&nbsp;' + v + '本').join('&ensp;/&ensp;');
+
+  const row = document.getElementById('summaryRow');
+  row.innerHTML =
+    '<div class="s-chip s-chip-default">' +
+      '<div class="s-label">投稿総数</div>' +
+      '<div class="s-value">' + total + '</div>' +
+      '<div class="s-sub">本</div>' +
+    '</div>' +
+    '<div class="s-chip s-chip-default">' +
+      '<div class="s-label">分類</div>' +
+      '<div class="s-cat-text">' + catText + '</div>' +
+    '</div>' +
+    (noteCount > 0
+      ? '<div class="s-chip s-chip-note">' +
+          '<div class="s-label">note展開候補</div>' +
+          '<div class="s-value">' + noteCount + '</div>' +
+          '<div class="s-sub">本</div>' +
+        '</div>'
+      : '') +
+    (editorCount > 0
+      ? '<div class="s-chip s-chip-editor">' +
+          '<div class="s-label">editor確認推奨</div>' +
+          '<div class="s-value">' + editorCount + '</div>' +
+          '<div class="s-sub">本</div>' +
+        '</div>'
+      : '');
+}
+
+// ─── フィルターボタン ──────────────────────────────────────
+let activeFilter = 'すべて';
+function renderFilters() {
+  const cats = ['すべて', ...Array.from(new Set(POSTS.map(p => p.category)))];
+  const wrap = document.getElementById('filterBtns');
+  wrap.innerHTML = cats.map(c =>
+    '<button class="f-btn ' + (c === activeFilter ? 'on' : '') + '" data-cat="' + esc(c) + '">' + esc(c) + '</button>'
+  ).join('');
+  wrap.querySelectorAll('.f-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      activeFilter = this.dataset.cat;
+      renderFilters();
+      applyFilter();
+    });
+  });
+}
+
+// ─── 絞り込み・検索 ────────────────────────────────────────
+function applyFilter() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var cards = document.querySelectorAll('.card');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var catMatch = activeFilter === 'すべて' || card.dataset.category === activeFilter;
+    var textMatch = !q || card.dataset.searchtext.indexOf(q) !== -1;
+    if (catMatch && textMatch) {
+      card.removeAttribute('data-hidden');
+      visible++;
+    } else {
+      card.setAttribute('data-hidden', '');
+    }
+  });
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+// ─── カード描画 ────────────────────────────────────────────
+function renderCards() {
+  var wrap = document.getElementById('cardsWrap');
+  POSTS.forEach(function(post) {
+    var status = statuses[post.id] || '';
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.category = post.category;
+    card.dataset.searchtext = (post.category + ' ' + post.text + ' ' + post.reader + ' ' + post.intent).toLowerCase();
+
+    var badges =
+      '<span class="badge badge-cat">' + esc(post.category) + '</span>' +
+      (post.noteExpandable ? '<span class="badge badge-note">note展開可</span>' : '') +
+      (post.editorCheck ? '<span class="badge badge-editor">editor確認推奨</span>' : '');
+
+    var stBtns = ['採用', '修正', '保留'].map(function(s) {
+      return '<button class="st-btn ' + (status === s ? 'on-' + s : '') + '" data-id="' + post.id + '" data-status="' + s + '">' + s + '</button>';
+    }).join('');
+
+    card.innerHTML =
+      '<div class="card-top">' +
+        '<span class="card-num">投稿' + post.id + '</span>' +
+        '<div class="card-badges">' + badges + '</div>' +
+      '</div>' +
+      '<div class="card-text">' + esc(post.text) + '</div>' +
+      '<div class="card-footer">' +
+        '<button class="copy-btn" data-id="' + post.id + '">コピー</button>' +
+        '<div class="status-group">' + stBtns + '</div>' +
+      '</div>' +
+      '<div class="card-meta">' +
+        '<details>' +
+          '<summary>想定読者・狙いを見る</summary>' +
+          '<div class="meta-body">' +
+            '<div class="meta-label">想定読者</div>' +
+            '<div>' + esc(post.reader) + '</div>' +
+            '<div class="meta-label">狙い</div>' +
+            '<div>' + esc(post.intent) + '</div>' +
+          '</div>' +
+        '</details>' +
+      '</div>';
+
+    wrap.insertBefore(card, document.getElementById('emptyState'));
+  });
+
+  // コピーボタン
+  document.querySelectorAll('.copy-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var post = POSTS.find(function(p) { return p.id === +btn.dataset.id; });
+      navigator.clipboard.writeText(post.text).then(function() {
+        btn.textContent = 'コピーしました ✓';
+        btn.classList.add('ok');
+        setTimeout(function() {
+          btn.textContent = 'コピー';
+          btn.classList.remove('ok');
+        }, 2000);
+      }).catch(function() {
+        // fallback
+        var ta = document.createElement('textarea');
+        ta.value = post.text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = 'コピーしました ✓';
+        btn.classList.add('ok');
+        setTimeout(function() {
+          btn.textContent = 'コピー';
+          btn.classList.remove('ok');
+        }, 2000);
+      });
+    });
+  });
+
+  // ステータスボタン
+  document.querySelectorAll('.st-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = +btn.dataset.id;
+      var s = btn.dataset.status;
+      if (statuses[id] === s) {
+        delete statuses[id];
+      } else {
+        statuses[id] = s;
+      }
+      saveStatuses(statuses);
+      var group = btn.closest('.status-group');
+      group.querySelectorAll('.st-btn').forEach(function(b) {
+        b.className = 'st-btn' + (statuses[id] === b.dataset.status ? ' on-' + b.dataset.status : '');
+      });
+    });
+  });
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ─── 初期化 ────────────────────────────────────────────────
+renderHeader();
+renderCards();
+renderFilters();
+document.getElementById('searchInput').addEventListener('input', applyFilter);
+</script>
+</body>
+</html>
