@@ -67,6 +67,10 @@ details[open] summary::before{transform:rotate(90deg)}
 .meta-label:first-child{margin-top:0}
 
 .empty{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px;display:none}
+.note-textarea{width:100%;min-height:320px;border:1px solid #e5e5ea;border-radius:10px;padding:14px;font-size:15px;line-height:1.9;font-family:inherit;color:#1c1c1e;background:#fafafa;resize:vertical;margin:10px 0 14px;box-sizing:border-box}
+.note-textarea:focus{outline:none;border-color:#007aff;background:#fff}
+.note-select-btn{padding:7px 15px;background:#5856d6;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap;transition:background .2s}
+.note-select-btn:hover{background:#4845c7}
 
 @media(max-width:600px){
   .top-header{padding:13px 14px 11px}
@@ -444,6 +448,19 @@ function renderCards() {
       return '<button class="st-btn ' + (status === s ? 'on-' + s : '') + '" data-id="' + post.id + '" data-status="' + s + '">' + s + '</button>';
     }).join('');
 
+    var isNoteDraft = post.category === 'note草稿';
+    var bodyHtml = isNoteDraft
+      ? '<textarea class="note-textarea" id="nta-' + post.id + '" readonly>' + esc(post.text) + '</textarea>' +
+        '<div class="card-footer">' +
+          '<button class="note-select-btn" data-id="' + post.id + '">全選択</button>' +
+          '<div class="status-group">' + stBtns + '</div>' +
+        '</div>'
+      : '<div class="card-text">' + esc(post.text) + '</div>' +
+        '<div class="card-footer">' +
+          '<button class="copy-btn" data-id="' + post.id + '">コピー</button>' +
+          '<div class="status-group">' + stBtns + '</div>' +
+        '</div>';
+
     card.innerHTML =
       '<div class="card-top">' +
         '<div class="card-meta-top">' +
@@ -452,11 +469,7 @@ function renderCards() {
         '</div>' +
         '<div class="card-badges">' + badges + '</div>' +
       '</div>' +
-      '<div class="card-text">' + esc(post.text) + '</div>' +
-      '<div class="card-footer">' +
-        '<button class="copy-btn" data-id="' + post.id + '">コピー</button>' +
-        '<div class="status-group">' + stBtns + '</div>' +
-      '</div>' +
+      bodyHtml +
       '<div class="card-details">' +
         '<details>' +
           '<summary>想定読者・狙いを見る</summary>' +
@@ -493,6 +506,18 @@ function renderCards() {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(post.text).then(showOk).catch(function() { doFallback(); showOk(); });
       } else { doFallback(); showOk(); }
+    });
+  });
+
+  // note草稿 全選択
+  document.querySelectorAll('.note-select-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var ta = document.getElementById('nta-' + btn.dataset.id);
+      if (!ta) return;
+      ta.focus();
+      ta.select();
+      btn.textContent = '選択中 — Ctrl+C でコピー';
+      setTimeout(function() { btn.textContent = '全選択'; }, 3000);
     });
   });
 
