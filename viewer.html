@@ -29,6 +29,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku
 .f-btn{padding:5px 12px;border:1px solid #e5e5ea;border-radius:20px;background:#fff;font-size:13px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s;line-height:1.4}
 .f-btn:hover{background:#f2f2f7}
 .f-btn.on{background:#1c1c1e;color:#fff;border-color:#1c1c1e}
+.sort-btn{padding:5px 12px;border:1px solid #2563EB;border-radius:20px;background:#fff;color:#2563EB;font-size:13px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s;line-height:1.4;font-weight:500}
+.sort-btn:hover{background:#EFF6FF}
+.sort-btn.on{background:#2563EB;color:#fff}
 
 .cards-wrap{padding:16px 14px;max-width:740px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 .card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
@@ -38,11 +41,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku
 .card-meta-top{display:flex;flex-direction:column;gap:2px}
 .card-num{font-size:12px;color:#8e8e93}
 .card-batch{font-size:11px;color:#aeaeb2}
+.card-scheduled{font-size:12px;color:#2563EB;font-weight:600;margin-top:1px}
 .card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
 .badge{font-size:11px;padding:3px 7px;border-radius:5px;font-weight:500;white-space:nowrap}
 .badge-cat{background:#f2f2f7;color:#3a3a3c}
 .badge-note{background:#fff3cd;color:#92670a}
 .badge-editor{background:#cfe2ff;color:#084298}
+.badge-format{background:#e9d5ff;color:#6b21a8}
+.badge-review{background:#fee2e2;color:#b91c1c}
+.badge-typefully{background:#dcfce7;color:#15803d}
 
 .card-text{font-size:16px;line-height:1.9;white-space:pre-wrap;margin:10px 0 14px;word-break:break-word;color:#1c1c1e}
 
@@ -65,6 +72,18 @@ details[open] summary::before{transform:rotate(90deg)}
 .meta-body{padding-top:8px;font-size:13px;line-height:1.7;color:#3a3a3c}
 .meta-label{font-size:11px;color:#8e8e93;margin-bottom:2px;margin-top:8px;font-weight:600;letter-spacing:.2px}
 .meta-label:first-child{margin-top:0}
+
+.img-prompt-section{margin-top:10px;border-top:1px solid #f2f2f7;padding-top:10px}
+.img-prompt-section summary{font-size:12px;color:#6b21a8;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:5px;padding:2px 0;font-weight:600}
+.img-prompt-section summary::-webkit-details-marker{display:none}
+.img-prompt-section summary::before{content:"▶";font-size:9px;display:inline-block;transition:transform .15s;color:#a855f7}
+.img-prompt-section[open] summary::before{transform:rotate(90deg)}
+.img-prompt-body{padding-top:8px}
+.img-prompt-text{width:100%;background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.7;color:#3a3a3c;white-space:pre-wrap;font-family:inherit;resize:vertical;min-height:120px;box-sizing:border-box}
+.img-prompt-text:focus{outline:none;border-color:#a855f7}
+.img-copy-btn{margin-top:6px;padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;transition:background .2s}
+.img-copy-btn:hover{background:#6d28d9}
+.img-copy-btn.ok{background:#34c759}
 
 .empty{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px;display:none}
 .note-textarea{width:100%;min-height:320px;border:1px solid #e5e5ea;border-radius:10px;padding:14px;font-size:15px;line-height:1.9;font-family:inherit;color:#1c1c1e;background:#fafafa;resize:vertical;margin:10px 0 14px;box-sizing:border-box}
@@ -95,6 +114,7 @@ details[open] summary::before{transform:rotate(90deg)}
     <input type="text" id="searchInput" placeholder="キーワード検索...">
   </div>
   <div class="filters" id="filterBtns"></div>
+  <button class="sort-btn" id="sortBtn">🕐 時刻順</button>
 </div>
 
 <div class="cards-wrap" id="cardsWrap">
@@ -326,16 +346,6 @@ const POSTS = [
     editorCheck: false,
   },
   {
-    id: 24,
-    batch: '2026-07-03 note草稿',
-    category: 'note草稿',
-    text: 'AIで稼ぐより難しかった「何を売るか」を決めるまでの話\n\n---\n\n副業で初めてお金をもらったのは、4年前だった。\n\nココナラにスキルを出品して、初めて売れたときのことは今でも覚えている。金額は大きくなかったけど、「自分のスキルが誰かの役に立った」という感覚は、給料日とは全然違うものだった。\n\nそれからしばらく間が空いて、AIが普及してきたタイミングでまた動き始めた。\n\n今度こそうまくやれると思っていた。4年前の経験がある。AIというツールまである。なおさら楽にできるはずだと思っていた。\n\n最初につまずいたのは、プロンプトでも、ツールの使い方でも、noteの設定でもなかった。\n\n「何を書くか」だった。\n\nここが、4年前とまったく違うところだった。ココナラのときは「自分にできること」を出品する形だったから、売るものが先にあった。noteは違う。何を書くかを、まず自分で決めないといけない。AIがあっても、その判断だけはしてくれなかった。\n\n---\n\n最初に浮かんだアイデアと、没になった理由\n\nAIで副業を始めようと決めてから、最初にやったのはアイデア出しだった。\n\nChatGPTに「副業で稼げる記事のテーマを教えて」と聞いた。30件くらい返ってきた。\n\n見た瞬間に全部没にした。\n\n「ChatGPTを使った業務効率化10選」「AIで時間を節約する方法」「副業で月10万円稼ぐロードマップ」。\n\nどれも、どこかで見た話だった。書けるけど、自分が書く意味がないやつだった。\n\n次に思ったのは、「よく使っているプロンプトをまとめて公開すればいいじゃないか」だった。\n\nこれも、すぐ没にした。\n\nプロンプトの紹介記事は、検索すればいくらでも出てくる。「これを使えば〇〇できる」という構成も、すでに大量にある。自分が出しても、その山に埋もれるだけだと思った。\n\n「即効性のある○選」系の記事も同じだった。タイトルは強そうに見えるけど、読んで終わりになりやすい。読者が何かを変えるきっかけにはなりにくい。このアカウントで出すには違う気がした。\n\n---\n\n「書ける」けど「書かない方がいい」は、別の判断だった\n\n没になったアイデアを整理すると、大きく2種類あることに気づいた。\n\n「書けない」ものと、「書かない方がいい」ものだ。\n\n「書けない」は、たとえば社内の情報が絡むやつ。会社員として副業をやる以上、業務内容や顧客の話は書けない。これは判断の余地がない。\n\n一方、「書かない方がいい」は少し違う。\n\nプロンプト紹介も、即効性を謳う○選記事も、技術的には書ける。でも書かない方がいい。\n\n理由は二つあった。\n\n一つは差別化できないこと。誰でも書けるものを出しても、自分が書く理由がない。読者も、他のどこかで似たものを読んでいる。\n\nもう一つは、自分が信じていないものを書きたくなかったこと。「これで即収益化できます」と書くのは、自分の実感と違いすぎた。\n\nこの2つを一緒に「書けないこと」として処理していたから、使えるテーマがどんどん減って、何も書けない状態が続いた。\n\n分けて考えると、少し整理できた。「書けない」は外部の制約で、「書かない方がいい」は自分が決める話だ。\n\n---\n\n日記になっていた時期\n\nもう一つ没になったパターンがある。\n\n「今日AIでこれをやってみました」という日記系の投稿だ。\n\nこれは書きやすかった。起きたことを書くだけでいいから。でも読んでいて、読者に何も残らないと気づいた。\n\n体験を書いているのに、体験から何を判断したのか、何が変わったのか、読者がどう使えるのかが抜けている。\n\n「今日やったこと」は日記で、「なぜそうしたか・何がわかったか」が入ると記録になる。この差が大きかった。\n\n日記を書くのをやめて、「なぜそうしたか」を必ず入れることにした。\n\n---\n\n「誰が払うか」という問いに変えた\n\n「自分は何を書けるか」で考えている限り、テーマが決まらなかった。\n\n途中で問いを変えた。「誰が何にお金を払うか」だ。\n\n読者が「知りたい」と思うことと、「払ってもいい」と思うことは違う。\n\n「知りたい」は無料記事で十分なことが多い。「払ってもいい」は、自分では調べきれないか、失敗したくないから先に知りたいか、のどちらかに近い。\n\n会社員がAIで副業を始める話の場合、「失敗したくないから先に知りたい」に当たりそうだと思った。\n\n具体的には、「最初に何をやって、何がダメで、どう変えたか」を正直に書くことだ。\n\n成功した話より、失敗した話の方が、先に知っておく価値がある。即効性より、試行錯誤のリアルな記録の方が、読者の手元に残りやすい。\n\n---\n\n実際に書いたのは、自分の失敗の記録だった\n\n「何を売るか」は、最終的に「自分の失敗の記録」に落ち着いた。\n\n没になったテーマたち。「書かない方がいい」と判断した基準。どこで詰まって、どう変えたか。\n\nこれは、他の人には書けない。会社員としてAIで副業を試した人が、実際にやった試行錯誤の記録は、自分にしか書けない。\n\n---\n\n最初の売上は980円だった\n\nnoteに最初の有料記事を出したのは今年の1月だった。\n\n売上は980円。\n\n正直に言うと、金額より「売れた」という事実の方が大きかった。\n\n誰かが読んで、お金を払う価値があると判断した。それが980円であっても、0円との差は金額じゃない。「買われた」という事実があるかないかだ。\n\n「何を売るか」を決めるまでに時間がかかった。でも決まってからは、書くことより売れることの方が早かった。\n\nテーマが決まれば、AIは本当に速い。構成を作るのも、ドラフトを直すのも、見出しを整えるのも。\n\nAIが遅かったわけじゃなかった。自分が「何を作るか」を決めるのに時間がかかっていただけだった。\n\n---\n\n「何を売るか」は、AIが決めてくれない\n\n副業でAIを使いたい人に向けて、一つだけ言えることがある。\n\nAIは「書く」のを手伝ってくれる。でも「何を書くか」は決めてくれない。\n\nここを先に自分で決めないと、AIを使い始めても詰まったまま動けない。\n\n「書けるもの」「書かない方がいいもの」「書いても差別化できないもの」を仕分けること。その仕分けが終わってから、はじめてAIが道具になった。\n\n楽に書けるものから出し始めていたら、たぶん今も迷っていた。',
-    reader: 'AI副業を始めようとしているが、何を書けばいいかわからない会社員',
-    intent: 'note草稿。有料部分を確認してnoteに貼り付けて使用する。',
-    noteExpandable: false,
-    editorCheck: true,
-  },
-  {
     id: 23,
     batch: '2026-07-02 実践ログ・AI活用法・副業実況',
     category: 'スレッド',
@@ -343,6 +353,216 @@ const POSTS = [
     reader: 'AIを副業に使い始めようとしているが、何からやればいいかわからない会社員',
     intent: '最初のつまずきを3つに整理。スレッド形式で読み進めてもらう',
     noteExpandable: true,
+    editorCheck: false,
+  },
+  {
+    id: 24,
+    batch: '2026-07-03 note草稿',
+    category: 'note草稿',
+    text: 'AIで稼ぐより難しかった「何を売るか」を決めるまでの話\n\n---\n\n副業で初めてお金をもらったのは、4年前だった。\n\nココナラにスキルを出品して、初めて売れたときのことは今でも覚えている。金額は大きくなかったけど、「自分のスキルが誰かの役に立った」という感覚は、給料日とは全然違うものだった。\n\nそれからしばらく間が空いて、AIが普及してきたタイミングでまた動き始めた。\n\n今度こそうまくやれると思っていた。4年前の経験がある。AIというツールまである。なおさら楽にできるはずだと思っていた。\n\n最初につまずいたのは、プロンプトでも、ツールの使い方でも、noteの設定でもなかった。\n\n「何を書くか」だった。\n\nここが、4年前とまったく違うところだった。ココナラのときは「自分にできること」を出品する形だったから、売るものが先にあった。noteは違う。何を書くかを、まず自分で決めないといけない。AIがあっても、その判断だけはしてくれなかった。\n\n---\n\n最初に浮かんだアイデアと、没になった理由\n\nAIで副業を始めようと決めてから、最初にやったのはアイデア出しだった。\n\nChatGPTに「副業で稼げる記事のテーマを教えて」と聞いた。30件くらい返ってきた。\n\n見た瞬間に全部没にした。\n\n「ChatGPTを使った業務効率化10選」「AIで時間を節約する方法」「副業で月10万円稼ぐロードマップ」。\n\nどれも、どこかで見た話だった。書けるけど、自分が書く意味がないやつだった。\n\n次に思ったのは、「よく使っているプロンプトをまとめて公開すればいいじゃないか」だった。\n\nこれも、すぐ没にした。\n\nプロンプトの紹介記事は、検索すればいくらでも出てくる。「これを使えば〇〇できる」という構成も、すでに大量にある。自分が出しても、その山に埋もれるだけだと思った。\n\n「即効性のある○選」系の記事も同じだった。タイトルは強そうに見えるけど、読んで終わりになりやすい。読者が何かを変えるきっかけにはなりにくい。このアカウントで出すには違う気がした。\n\n---\n\n「書ける」けど「書かない方がいい」は、別の判断だった\n\n没になったアイデアを整理すると、大きく2種類あることに気づいた。\n\n「書けない」ものと、「書かない方がいい」ものだ。\n\n---\n\n「誰が払うか」という問いに変えた\n\n「自分は何を書けるか」で考えている限り、テーマが決まらなかった。\n\n途中で問いを変えた。「誰が何にお金を払うか」だ。\n\n読者が「知りたい」と思うことと、「払ってもいい」と思うことは違う。\n\n---\n\n最初の売上は980円だった\n\nnoteに最初の有料記事を出したのは今年の1月だった。\n\n売上は980円。\n\n正直に言うと、金額より「売れた」という事実の方が大きかった。\n\n「何を売るか」を決めるまでに時間がかかった。でも決まってからは、書くことより売れることの方が早かった。\n\n---\n\n「何を売るか」は、AIが決めてくれない\n\n副業でAIを使いたい人に向けて、一つだけ言えることがある。\n\nAIは「書く」のを手伝ってくれる。でも「何を書くか」は決めてくれない。\n\nここを先に自分で決めないと、AIを使い始めても詰まったまま動けない。',
+    reader: 'AI副業を始めようとしているが、何を書けばいいかわからない会社員',
+    intent: 'note草稿。有料部分を確認してnoteに貼り付けて使用する。',
+    noteExpandable: false,
+    editorCheck: true,
+  },
+  // ─── 2026-07-07 週 ────────────────────────────────────────
+  {
+    id: 25,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '視点転換',
+    scheduledAt: '2026-07-07T07:00:00+09:00',
+    scheduledLabel: '7/7（火）朝7時',
+    format: 'text',
+    typefullyId: '9750089',
+    text: '去年の自分は、AIを使い始めればそれだけで何かが変わると思っていた。\n半年後も、ほぼ何も変わっていなかった。\n\nツールは揃えた。使い方も調べた。プロンプトの工夫もした。\nそれでも変わらなかったのは、「何のためにAIを使うのか」がずっと曖昧だったから。\n\nぼんやりと効率化できればいいな、くらいの解像度では、具体的に何を任せるかが決まらない。\n当然、習慣にもならない。\n\n転機は、副業の中で「この作業だけはAIでやる」と決めたとき。\nツールの問題じゃなく、使い道を先に設計することが必要だった。\n気づくのに半年かかった。',
+    reader: 'AIを触り始めて数ヶ月が経つが、何も変わった気がしない会社員',
+    intent: '週の入口。「使い道の設計」という言語化が今週の教育軸の導入になる。新規読者の共感フック。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 26,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: 'AI活用法',
+    scheduledAt: '2026-07-07T21:00:00+09:00',
+    scheduledLabel: '7/7（火）夜9時',
+    format: 'image',
+    typefullyId: '9750090',
+    text: 'Claude Codeで個人開発を始めた非エンジニアが詰まるのは、コードじゃなくて環境構築とAPIキーの設定。\n\n作る前に「どこで詰まるか」を知っておくと、心理的なハードルがかなり下がる。実際に試してみて分かったことをまとめた。',
+    reader: 'Claude Codeを触り始めた非エンジニアの会社員',
+    intent: 'バイブコーディング/個人開発テーマ（前週未使用）の投入。認知拡大に機能しやすいテーマ。',
+    noteExpandable: false,
+    editorCheck: false,
+    imagePrompt: '【画像作成依頼】numbered-list テンプレート / アスペクト比 1:1\n\nタイトル（2行）:\nClaude Codeで個人開発する流れ\n非エンジニア版\n\n内容:\n1. 要件を日本語で書く（仕様書不要、会話形式でOK）\n2. Claude Codeに初期ファイル構成を作らせる\n3. 動作確認 → エラーメッセージをそのまま貼る\n[赤バッジ] 詰まりポイント: 環境構築（Node / Python バージョン差異）\n[赤バッジ] 詰まりポイント: APIキーの設定場所が分からない\n[赤バッジ] 詰まりポイント: エラー文の読み方・何を貼るべきかが不明\n\nキャプション: 詰まる場所を知っておくと、怖くなくなる\nフッター: @WUA8Gb1L3f56009\n\nスタイル:\n背景 #FFFFFF / テキスト #1A1A2E / アクセント（番号・ライン） #2563EB\n詰まりポイント行: バッジ背景 #FEE2E2 / バッジテキスト #B91C1C\nフォント: Noto Sans JP / タイトル 20px / 本文 13px / パディング 28px\n縦型ステップリスト、左揃え、余白広め、フッターは小さく下部に配置',
+  },
+  {
+    id: 27,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '実践ログ',
+    scheduledAt: '2026-07-08T07:00:00+09:00',
+    scheduledLabel: '7/8（水）朝7時',
+    format: 'list',
+    typefullyId: '9750091',
+    text: 'SNS運用AIチームを設計するとき、最初に間違えた3つの前提。\n\n・エージェントは指示すれば自律的に動く（実際は役割定義の精度が全てだった）\n・指示は1回書けば完成する（毎回出力を見て書き直している）\n・うまくいかなければ指示を直せばいい（実際は設計から見直す必要があった）\n\n前提を変えたら、少し進み始めた。',
+    reader: 'AIエージェントやClaude Codeで自動化を試みている会社員・個人開発者',
+    intent: 'AIチーム設計の失敗前提。「本当に試している」という証拠になる実践ログ。前日の認知系からトーン変化。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 28,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '視点転換',
+    scheduledAt: '2026-07-08T21:00:00+09:00',
+    scheduledLabel: '7/8（水）夜9時',
+    format: 'text',
+    typefullyId: '9750092',
+    text: '自分も一度、発信を完全に止めた。\n「書くことがない」ではなく、「何のために書いているのかわからなくなった」が正確だったと思う。\n\nネタは実は色々あった。出来事も、試したことも。\nでも何のために発信するのかが見えなくなると、どこから書き始めればいいかも分からなくなる。\n\n目的を再定義したきっかけは小さなことで、自分の過去のメモを読み返したとき。\nそこから「自分が得た気づきを記録するための発信」に切り替えた。\n\n続けるのは意志の問題じゃなく、構造の問題だと思う。\n目的がなければ、どれだけ根性があっても続かない。',
+    reader: 'XやnoteでAI発信を始めたが途中で止まってしまった会社員',
+    intent: '発信テーマ（前週完全不在）の新規軸投入。共感型でリプを引きやすい。',
+    noteExpandable: true,
+    editorCheck: false,
+  },
+  {
+    id: 29,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: 'スレッド',
+    scheduledAt: '2026-07-09T07:00:00+09:00',
+    scheduledLabel: '7/9（木）朝7時',
+    format: 'thread',
+    typefullyId: '9750117',
+    text: 'AIに「なんか微妙」と感じたとき、原因が3種類あると分かった。\n\nそれぞれ対処が全然違う。混同すると、直すべきところを直さずに時間が消える。\n\n——\n\n1つ目：プロンプトの問題\n\n指示が曖昧、または足りない。\n「誰向けに」「何文字で」「避けてほしい表現は」を追記すると、一気に変わることが多い。\nここが原因なら、指示を足すだけで解決する。\n\n——\n\n2つ目：完成条件が決まっていない問題\n\n自分の中で「何が仕上がった状態か」が決まっていないまま頼んでいる。\nAIは完成条件を決めてくれない。曖昧な前提には、曖昧な出力が返ってくる。\nここが原因なら、指示より先に「何ができていれば終わりか」を言語化する必要がある。\n\n——\n\n3つ目：そもそもAIに向いていない作業の問題\n\n自分の経験・体験・失敗談が必要な文章は、AIに任せると「事実はあるが経験がない」文章になる。\nここが原因なら、AIに頼む部分を変える必要がある。素材を出してもらって、書くのは自分でやる。\n\n——\n\n3種類を整理すると：\n・プロンプトの問題 → 指示を足す\n・完成条件の問題 → 先に言語化する\n・向いていない作業の問題 → 役割分担を見直す\n\n「なんか微妙」は感覚じゃなく、原因を分類できる問題だと思っている。分解する習慣が先に要る。',
+    reader: 'AIを使っているが期待通りの結果が出ないと感じている会社員',
+    intent: '問題解決型スレッド。週の看板投稿。「診断→対処法」フレームが新規読者の入口にもなる。',
+    noteExpandable: true,
+    editorCheck: false,
+  },
+  {
+    id: 30,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '視点転換',
+    scheduledAt: '2026-07-09T21:00:00+09:00',
+    scheduledLabel: '7/9（木）夜9時',
+    format: 'list',
+    typefullyId: '9750118',
+    text: '発信が続かない理由を自分の経験から整理したら、3つのパターンに分かれた。\nどれも「意志の問題」ではなかった。\n\n・ネタ切れ型\n書くことを毎回その場で考えていた。ストックを作る仕組みが何もなかった。\n\n・完璧主義型\nクオリティ基準が自分の中で高すぎた。下書きが溜まるだけで、公開ボタンが押せなかった。\n\n・反応待ち型\n数字が動かないと続ける理由が見えなくなった。反応を動機の燃料にしていた。\n\n3つに共通しているのは、構造の問題だということ。\n仕組みがなく、意志だけで動かそうとしていた。\n意志では長く続かない。',
+    reader: '発信を始めようとしたが続かなかった経験を持つ会社員',
+    intent: '前日のnew-02（発信が止まった体験）から翌日に「なぜ止まるかの構造」へ展開。保存・ブックマーク狙い。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 31,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: 'AI活用法',
+    scheduledAt: '2026-07-10T07:00:00+09:00',
+    scheduledLabel: '7/10（金）朝7時',
+    format: 'image',
+    typefullyId: '9750121',
+    text: 'AIへの指示で結果が変わる分岐点は、文字数でも語彙でもなかった。\n\n以前は「なるべく自然な感じで」という指示をよく使っていた。\n出力はそれなりに整うが、自分が何を求めているかは伝わっていなかった。\n\n変わったのは「省略していた情報を全部書く」と決めたとき。\n・誰に読んでほしいか\n・何の目的で使うか\n・やってほしくないことは何か\n\n省略すると、AIがそれを補完する。でも補完の方向は自分の想定とは限らない。\n\n自分の期待を省略しないこと。それだけで出力がずっと使いやすくなった。',
+    reader: 'AIに指示しているが期待通りのアウトプットが出ない会社員',
+    intent: '「省略していた情報」フレームで指示設計を図解。前日の発信テーマから切り替えてAI活用教育へ。',
+    noteExpandable: false,
+    editorCheck: false,
+    imagePrompt: '【画像作成依頼】before-after 左右分割 / アスペクト比 1:1\n\nタイトル: AIへの指示 — 省略した場合と書いた場合\n\n左列（背景 #F9FAFB）:\n省略した指示例:「なるべく自然な感じで」\n→ 出力は整うが意図が伝わらない\n→ 修正ループ（赤の循環矢印）\n→ 消耗\n\n右列（背景 #EFF6FF）:\n省略しない指示: ①誰に ②目的 ③やってほしくないこと を書く\n→ 最初から使える精度の出力\n→ 微修正で完了（青の一方向矢印）\n\n中央に縦の区切り線\n\n下部3要素（番号付き）:\n①誰に読んでほしいか\n②何の目的で使うか\n③やってほしくないことは何か\n\nキャプション: 省略した情報をAIが補完する。でも補完の方向は自分の想定とは限らない\nフッター: @WUA8Gb1L3f56009\n\nスタイル:\n背景 #FFFFFF / テキスト #1A1A2E / アクセント #2563EB\nフォント: Noto Sans JP / タイトル 20px / 本文 13px / パディング 28px',
+  },
+  {
+    id: 32,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '質問投稿',
+    scheduledAt: '2026-07-10T21:00:00+09:00',
+    scheduledLabel: '7/10（金）夜9時',
+    format: 'poll',
+    typefullyId: '9750122',
+    text: '副業でAIを使っている人へ。今、どの使い方に一番時間を使っていますか？\n\n①リサーチ・情報収集\n②文章の生成・作成\n③アイデア出し・整理\n④コーディング・ツール作成\n\n※Typefully UIでpoll形式に変換してください',
+    reader: 'AIを副業に活用しているが、成果との接続が見えていない会社員',
+    intent: '先週のpoll（詰まっている場所）の続き。読者の現状把握と来週テーマ設計に使える。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 33,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: 'AI活用法',
+    scheduledAt: '2026-07-11T07:00:00+09:00',
+    scheduledLabel: '7/11（土）朝7時',
+    format: 'list',
+    typefullyId: '9750150',
+    text: 'AIへの指示の「粒度」を変えただけで、出てくるものが全然違った。これを知らないまま使っている人が多い気がする。\n\n・粒度が粗い指示の例：「記事を書いて」→ぼんやりしたものが返ってくる\n・粒度を上げた指示：読者・目的・構成・制約・トーンを含める\n・変わること①：最初の出力から使える精度になる\n・変わること②：修正の往復が3〜5回から1〜2回に減った\n\n「指示が悪い」という感覚は合っているが、原因は語彙でも文章力でもない。粒度の設計が習慣になっていないだけだった。習慣になれば、毎回書き直す必要がなくなる。',
+    reader: 'AIに指示しているがアウトプットが安定しない会社員',
+    intent: '前日の画像（省略情報）から続く教育の流れ。「粒度」という具体的な概念でブックマーク狙い。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 34,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: 'note誘導',
+    scheduledAt: '2026-07-11T21:00:00+09:00',
+    scheduledLabel: '7/11（土）夜9時',
+    format: 'note-promo',
+    reviewRequired: true,
+    text: 'Claude CodeでSNS発信用のAIチームを作りながら、詰まったことがいくつかあった。\n\n「エージェントは指示すれば動く」という前提が間違っていた。指示の設計に思ったより時間がかかった。\n\nその記録をnoteにまとめました。設計の考え方から、実際に使っているCLAUDE.mdの構成まで書いています。',
+    reader: 'SNS発信の効率化やAIエージェント活用に興味がある会社員・個人発信者',
+    intent: '週前半の教育投稿で問題意識を育てた後、土曜夜にnote誘導。noteの公開確認後にURL追記して手動登録。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 35,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '実践ログ',
+    scheduledAt: '2026-07-12T07:00:00+09:00',
+    scheduledLabel: '7/12（日）朝7時',
+    format: 'text',
+    typefullyId: '9750151',
+    text: '今週、発信を続けるために自分の仕組みを変えた。試したことを記録しておく。\n\n変える前の状態：週の後半になっても「今日書こう」が着手できずにいた。時間はあった。でも始まらなかった。\n\n変えたこと：AIエージェントに「下書きの起点だけ」任せるようにした。テーマを渡してアウトラインを出してもらい、そこから自分で書く。\n\n変化：着手コストが下がり、週の前半に書けるようになった。\n\n課題：エージェントが出した下書きの個性が薄い。自分の経験を乗せる部分は、まだ手が抜けない。完成した話ではなく、途中の記録として出しておく。',
+    reader: 'AI発信を続けようとしているが週次で書くことに詰まっている会社員',
+    intent: '週後半の信頼補強。「途中の記録として出す」という誠実さが「本当に試している」印象を強化。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 36,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '実践ログ',
+    scheduledAt: '2026-07-12T21:00:00+09:00',
+    scheduledLabel: '7/12（日）夜9時',
+    format: 'image',
+    typefullyId: '9750152',
+    text: '今週試したこと・気づいたこと・持ち越すことを1枚にまとめた。週次振り返りを形式にしようとしている。\n\n今週試したこと\n・指示文を3本書き直した（出力の質が変わった）\n・note構成をエージェントに出させて、自分で書く流れを作った\n・投稿スケジュールの自動化を一部試みた（まだ途中）\n\n気づいたこと\n着手コストの問題だと思っていたが、実は指示設計の問題だった。設計が整うと、着手が速くなる。\n\n持ち越す問い\nエージェントの出力に自分の体験をどう乗せるか。ここがまだ課題。',
+    reader: 'AIと発信を組み合わせて実験中の会社員',
+    intent: '週次振り返りフォーマットの定着化。継続ウォッチャーを作る投稿。',
+    noteExpandable: false,
+    editorCheck: false,
+    imagePrompt: '【画像作成依頼】3セクション縦型カード / アスペクト比 1:1\n\nタイトル: 今週の実験ログ（2026年7月第2週）\n\nセクション1「試したこと」（背景 #EFF6FF）:\n・指示文を3本書き直した → 出力の質が変わった\n・note構成をエージェントに出させて自分で書く流れを作った\n・投稿スケジュールの自動化を一部試みた（まだ途中）\n\nセクション2「気づき」（背景 白）:\n着手コストの問題だと思っていたが、実は指示設計の問題だった\n\nセクション3「持ち越す問い」（背景 #F9FAFB）:\nエージェントの出力に自分の体験をどう乗せるか\n\n各セクションに小さいグレーのラベル（「試したこと」「気づき」「持ち越す問い」）\nセクション間に1px区切り線 / タイトル下に細い区切り線\n\nキャプション: 完成した話ではなく、途中の記録\nフッター: @WUA8Gb1L3f56009\n\nスタイル:\n背景 #FFFFFF / テキスト #1A1A2E / アクセント #2563EB\nフォント: Noto Sans JP / タイトル 18px / 本文 13px / パディング 24px',
+  },
+  {
+    id: 37,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '実践ログ',
+    scheduledAt: '2026-07-13T07:00:00+09:00',
+    scheduledLabel: '7/13（月）朝7時',
+    format: 'text',
+    typefullyId: '9750153',
+    text: 'バイブコーディングでアプリを作り始めて気づいた。\n\n詰まるのはコードじゃなくて「何を作るか」の部分だった。\n\n技術の問題じゃなく、企画の問題。コードは書けるようになったのに、進まない理由がそこにあった。\n\n「何を作りたいか」が曖昧なまま始めると、作れる力があっても止まる。',
+    reader: 'Claude CodeやVibe Codingを触り始めたが、何を作ればいいか定まらない人',
+    intent: 'バイブコーディングテーマ。月曜朝の新規流入枠で認知拡大。7/7夜の非エンジニアフロー投稿と合わせて個人開発テーマを補完。',
+    noteExpandable: false,
+    editorCheck: false,
+  },
+  {
+    id: 38,
+    batch: '2026-07-07週 AI教育・発信構造・エージェントBefore-After',
+    category: '視点転換',
+    scheduledAt: '2026-07-13T21:00:00+09:00',
+    scheduledLabel: '7/13（月）夜9時',
+    format: 'list',
+    typefullyId: '9750154',
+    text: '「発信が続かない」という人と話すと、最初の単位が大きすぎることが多い。自分もそうだった。\n\n最小単位の定義：今日気づいた「なるほど」を1文で書くこと\n\n具体的な例\n・今日試して詰まったこと（1文）\n・今日変えた判断と、その理由（1文）\n・今日読んで「そうか」と思ったこと（1文）\n\n「まず始めること」より「続けられる単位を決めること」の方が先だと気づいた。来週から試せるアクション：今日の「なるほど」を1つだけ書いてみる。それだけでいい。',
+    reader: '発信を再開・継続したいが何から始めればいいかわからない会社員',
+    intent: '週締め。行動促進型で読んだ人が翌日から動けるアクションを渡す。発信テーマ週の締め投稿。',
+    noteExpandable: false,
     editorCheck: false,
   },
 ];
@@ -357,23 +577,42 @@ function saveStatuses(obj) {
 }
 let statuses = loadStatuses();
 
+// ─── ソート ────────────────────────────────────────────────
+let sortByTime = false;
+
+function getSortedPosts() {
+  if (!sortByTime) return POSTS;
+  return [...POSTS].sort(function(a, b) {
+    if (!a.scheduledAt && !b.scheduledAt) return 0;
+    if (!a.scheduledAt) return 1;
+    if (!b.scheduledAt) return -1;
+    return new Date(a.scheduledAt) - new Date(b.scheduledAt);
+  });
+}
+
 // ─── サマリー ──────────────────────────────────────────────
 function renderHeader() {
-  const total = POSTS.length;
-  const noteCount = POSTS.filter(p => p.noteExpandable).length;
-  const editorCount = POSTS.filter(p => p.editorCheck).length;
-  const catCounts = {};
-  POSTS.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
-  const catText = Object.entries(catCounts).map(([k, v]) => k + '&nbsp;' + v + '本').join('&ensp;/&ensp;');
-  const batches = Array.from(new Set(POSTS.map(p => p.batch)));
+  var total = POSTS.length;
+  var noteCount = POSTS.filter(function(p) { return p.noteExpandable; }).length;
+  var editorCount = POSTS.filter(function(p) { return p.editorCheck; }).length;
+  var scheduledCount = POSTS.filter(function(p) { return p.scheduledAt; }).length;
+  var catCounts = {};
+  POSTS.forEach(function(p) { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
+  var catText = Object.entries(catCounts).map(function(e) { return e[0] + '&nbsp;' + e[1] + '本'; }).join('&ensp;/&ensp;');
+  var batches = Array.from(new Set(POSTS.map(function(p) { return p.batch; })));
 
   document.getElementById('headerMeta').textContent = '全' + batches.length + 'バッチ';
 
-  const row = document.getElementById('summaryRow');
+  var row = document.getElementById('summaryRow');
   row.innerHTML =
     '<div class="s-chip s-chip-default">' +
       '<div class="s-label">投稿総数</div>' +
       '<div class="s-value">' + total + '</div>' +
+      '<div class="s-sub">本</div>' +
+    '</div>' +
+    '<div class="s-chip s-chip-default">' +
+      '<div class="s-label">予約済み</div>' +
+      '<div class="s-value">' + scheduledCount + '</div>' +
       '<div class="s-sub">本</div>' +
     '</div>' +
     '<div class="s-chip s-chip-default" style="min-width:auto">' +
@@ -397,15 +636,15 @@ function renderHeader() {
 }
 
 // ─── フィルター ────────────────────────────────────────────
-let activeFilter = 'すべて';
+var activeFilter = 'すべて';
 function getCategories() {
-  return ['すべて', ...Array.from(new Set(POSTS.map(p => p.category)))];
+  return ['すべて', ...Array.from(new Set(POSTS.map(function(p) { return p.category; })))];
 }
 function renderFilters() {
-  const wrap = document.getElementById('filterBtns');
-  wrap.innerHTML = getCategories().map(c =>
-    '<button class="f-btn ' + (c === activeFilter ? 'on' : '') + '" data-cat="' + esc(c) + '">' + esc(c) + '</button>'
-  ).join('');
+  var wrap = document.getElementById('filterBtns');
+  wrap.innerHTML = getCategories().map(function(c) {
+    return '<button class="f-btn ' + (c === activeFilter ? 'on' : '') + '" data-cat="' + esc(c) + '">' + esc(c) + '</button>';
+  }).join('');
   wrap.querySelectorAll('.f-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       activeFilter = this.dataset.cat;
@@ -432,17 +671,31 @@ function applyFilter() {
 // ─── カード描画 ────────────────────────────────────────────
 function renderCards() {
   var wrap = document.getElementById('cardsWrap');
-  POSTS.forEach(function(post) {
+  // 既存カードを削除（emptyState以外）
+  var existing = wrap.querySelectorAll('.card');
+  existing.forEach(function(c) { c.remove(); });
+
+  getSortedPosts().forEach(function(post) {
     var status = statuses[post.id] || '';
     var card = document.createElement('div');
     card.className = 'card';
     card.dataset.category = post.category;
-    card.dataset.searchtext = (post.batch + ' ' + post.category + ' ' + post.text + ' ' + post.reader + ' ' + post.intent).toLowerCase();
+    card.dataset.searchtext = (
+      (post.batch || '') + ' ' +
+      (post.category || '') + ' ' +
+      (post.text || '') + ' ' +
+      (post.reader || '') + ' ' +
+      (post.intent || '') + ' ' +
+      (post.scheduledLabel || '')
+    ).toLowerCase();
 
     var badges =
       '<span class="badge badge-cat">' + esc(post.category) + '</span>' +
+      (post.format ? '<span class="badge badge-format">' + esc(post.format) + '</span>' : '') +
       (post.noteExpandable ? '<span class="badge badge-note">note展開可</span>' : '') +
-      (post.editorCheck ? '<span class="badge badge-editor">editor確認推奨</span>' : '');
+      (post.editorCheck ? '<span class="badge badge-editor">editor確認推奨</span>' : '') +
+      (post.reviewRequired ? '<span class="badge badge-review">要確認・未登録</span>' : '') +
+      (post.typefullyId ? '<span class="badge badge-typefully">TF:' + esc(post.typefullyId) + '</span>' : '');
 
     var stBtns = ['採用', '修正', '保留'].map(function(s) {
       return '<button class="st-btn ' + (status === s ? 'on-' + s : '') + '" data-id="' + post.id + '" data-status="' + s + '">' + s + '</button>';
@@ -461,11 +714,27 @@ function renderCards() {
           '<div class="status-group">' + stBtns + '</div>' +
         '</div>';
 
+    // 画像プロンプトセクション
+    var imgPromptHtml = '';
+    if (post.imagePrompt) {
+      imgPromptHtml =
+        '<div class="img-prompt-section">' +
+          '<details class="img-prompt-section">' +
+            '<summary>画像生成プロンプトを見る</summary>' +
+            '<div class="img-prompt-body">' +
+              '<textarea class="img-prompt-text" id="ipt-' + post.id + '" readonly>' + esc(post.imagePrompt) + '</textarea>' +
+              '<button class="img-copy-btn" data-id="' + post.id + '">プロンプトをコピー</button>' +
+            '</div>' +
+          '</details>' +
+        '</div>';
+    }
+
     card.innerHTML =
       '<div class="card-top">' +
         '<div class="card-meta-top">' +
           '<span class="card-num">投稿' + post.id + '</span>' +
           '<span class="card-batch">' + esc(post.batch) + '</span>' +
+          (post.scheduledLabel ? '<span class="card-scheduled">📅 ' + esc(post.scheduledLabel) + '</span>' : '') +
         '</div>' +
         '<div class="card-badges">' + badges + '</div>' +
       '</div>' +
@@ -480,7 +749,8 @@ function renderCards() {
             '<div>' + esc(post.intent) + '</div>' +
           '</div>' +
         '</details>' +
-      '</div>';
+      '</div>' +
+      imgPromptHtml;
 
     wrap.insertBefore(card, document.getElementById('emptyState'));
   });
@@ -505,6 +775,30 @@ function renderCards() {
       };
       if (navigator.clipboard) {
         navigator.clipboard.writeText(post.text).then(showOk).catch(function() { doFallback(); showOk(); });
+      } else { doFallback(); showOk(); }
+    });
+  });
+
+  // 画像プロンプトコピー
+  document.querySelectorAll('.img-copy-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var post = POSTS.find(function(p) { return p.id === +btn.dataset.id; });
+      var doFallback = function() {
+        var ta = document.createElement('textarea');
+        ta.value = post.imagePrompt;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      };
+      var showOk = function() {
+        btn.textContent = 'コピーしました ✓';
+        btn.classList.add('ok');
+        setTimeout(function() { btn.textContent = 'プロンプトをコピー'; btn.classList.remove('ok'); }, 2000);
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(post.imagePrompt).then(showOk).catch(function() { doFallback(); showOk(); });
       } else { doFallback(); showOk(); }
     });
   });
@@ -544,6 +838,14 @@ renderHeader();
 renderCards();
 renderFilters();
 document.getElementById('searchInput').addEventListener('input', applyFilter);
+
+document.getElementById('sortBtn').addEventListener('click', function() {
+  sortByTime = !sortByTime;
+  this.classList.toggle('on', sortByTime);
+  this.textContent = sortByTime ? '🕐 時刻順（ON）' : '🕐 時刻順';
+  renderCards();
+  applyFilter();
+});
 </script>
 </body>
 </html>
