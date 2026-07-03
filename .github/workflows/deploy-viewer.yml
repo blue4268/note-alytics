@@ -25,11 +25,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Prepare site directory
+        run: |
+          mkdir -p _site
+          if [ -f posts/viewer.html ]; then
+            cp posts/viewer.html _site/viewer.html
+          elif [ -f viewer.html ]; then
+            cp viewer.html _site/viewer.html
+          else
+            echo "viewer.html not found" && exit 1
+          fi
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./posts
+          path: ./_site
 
       - id: deployment
         uses: actions/deploy-pages@v5
