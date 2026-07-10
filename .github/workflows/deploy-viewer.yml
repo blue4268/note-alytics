@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'posts/viewer.html'
+      - 'posts/note-viewer.html'
   workflow_dispatch:
 
 permissions:
@@ -34,6 +35,9 @@ jobs:
             cp viewer.html _site/viewer.html
           else
             echo "viewer.html not found" && exit 1
+          fi
+          if [ -f posts/note-viewer.html ]; then
+            cp posts/note-viewer.html _site/note-viewer.html
           fi
 
       - uses: actions/configure-pages@v5
