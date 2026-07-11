@@ -1,0 +1,56 @@
+{
+  "date": "2026-07-11",
+  "followers": 1,
+  "following": 1,
+  "article_count": 7,
+  "articles": [
+    {
+      "title": "プロンプトを100個磨くより、渡す情報を1個変えた話",
+      "likes": 2,
+      "comments": 0,
+      "published_at": "2026-07-11",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "AIで稼ぐより難しかった「何を売るか」を決めるまでの話",
+      "likes": 3,
+      "comments": 0,
+      "published_at": "2026-07-03",
+      "is_paid": false,
+      "price": 500
+    },
+    {
+      "title": "SNS運用AIチームを自分で作ってみた、正直な話",
+      "likes": 4,
+      "comments": 0,
+      "published_at": "2026-06-30",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "AIと副業を結びつけるときの考え方",
+      "likes": 3,
+      "comments": 0,
+      "published_at": "2026-06-21",
+      "is_paid": false,
+      "price": 450
+    },
+    {
+      "title": "「AIって結局どこに使えばいいの」と思ったときに",
+      "likes": 4,
+      "comments": 0,
+      "published_at": "2026-06-11",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "「AIを使えば早い」は正しい。でも、それだけでは埋まらないものがある",
+      "likes": 1,
+      "comments": 0,
+      "published_at": "2026-05-26",
+      "is_paid": false,
+      "price": 0
+    }
+  ]
+}
