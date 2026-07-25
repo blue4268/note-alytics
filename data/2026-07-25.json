@@ -1,0 +1,9 @@
+{
+  "date": "2026-07-25",
+  "fetch_status": "error",
+  "fetch_error": "note.com API returned 403 Forbidden from execution environment (proxy blocked)",
+  "followers": null,
+  "following": null,
+  "article_count": null,
+  "articles": []
+}
