@@ -1,0 +1,9 @@
+{
+  "date": "2026-08-01",
+  "fetch_error": "note.com API unreachable from execution environment (host not in network allowlist)",
+  "followers": null,
+  "following": null,
+  "article_count": null,
+  "articles": [],
+  "note": "Data could not be fetched this week. Previous data (2026-07-25): followers=3, following=1, article_count=7"
+}
