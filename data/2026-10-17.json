@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-17",
+  "followers": 6,
+  "following": 3,
+  "article_count": 13,
+  "articles": [
+    {
+      "title": "AIで速く進める時代に、何をしないかを考えたい",
+      "likes": 4,
+      "comments": 0,
+      "published_at": "2026-09-20",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "AI最前線で働きたいなら、FDEを目指せ。",
+      "likes": 2,
+      "comments": 0,
+      "published_at": "2026-10-15",
+      "is_paid": false,
+      "price": 2000
+    },
+    {
+      "title": "あなた自身の空っぽさを、AIによってごまかしていないか",
+      "likes": 7,
+      "comments": 0,
+      "published_at": "2026-10-09",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "効率化したのに、なぜ時間がないのか",
+      "likes": 2,
+      "comments": 0,
+      "published_at": "2026-10-05",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "【コピペOK】ChatGPTプロンプトの書き方｜仕事で使える「4項目テンプレ」",
+      "likes": 0,
+      "comments": 0,
+      "published_at": "2026-10-01",
+      "is_paid": false,
+      "price": 0
+    },
+    {
+      "title": "AIに任せるほど、人間は自由になるのか——老子の「無為」から考える",
+      "likes": 6,
+      "comments": 0,
+      "published_at": "2026-09-26",
+      "is_paid": false,
+      "price": 0
+    }
+  ]
+}
